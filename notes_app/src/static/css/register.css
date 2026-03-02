@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.register-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.register-container * {
+    box-sizing: border-box;
+}
+
+/* Left side - Black section for Logo */
+.register-logo-section {
+    flex: 1;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.brand-logo {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    margin: 0;
+    text-transform: uppercase;
+    margin-left: 0.4em;
+    /* Centers the text properly taking letter-spacing into account */
+    text-shadow: 0 4px 24px rgba(255, 255, 255, 0.15);
+    /* Soft, elegant glow */
+    user-select: none;
+}
+
+/* Right side - Register form */
+.register-form-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 40px;
+    overflow-y: auto;
+    /* In case the form is tall on smaller screens */
+}
+
+.register-card {
+    width: 100%;
+    max-width: 440px;
+    /* Slightly wider than login for the name group */
+    margin: auto;
+}
+
+.register-header {
+    margin-bottom: 28px;
+}
+
+.register-header h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    /* Dark Grey/Black */
+}
+
+.register-header p {
+    margin: 0;
+    color: #6b7280;
+    /* Medium Grey */
+    font-size: 15px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.name-group {
+    display: flex;
+    gap: 16px;
+}
+
+.name-group .input-group {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    /* Dark Gray */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #f9fafb;
+    /* Very Light Grey */
+    border: 1px solid #d1d5db;
+    /* Light Grey border */
+    border-radius: 8px;
+    color: #111827;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.input-group input::placeholder {
+    color: #9ca3af;
+}
+
+.input-group input:focus {
+    border-color: #111827;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.terms-agreement {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #4b5563;
+}
+
+.terms-agreement input[type="checkbox"] {
+    accent-color: #111827;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.terms-agreement a {
+    color: #111827;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.terms-agreement a:hover {
+    color: #000000;
+}
+
+.register-button {
+    background-color: #111827;
+    /* Near Black */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 12px;
+}
+
+.register-button:hover {
+    background-color: #374151;
+    /* Dark Grey hover */
+}
+
+.register-button:active {
+    background-color: #000000;
+    transform: scale(0.98);
+}
+
+.register-footer {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.register-footer a {
+    color: #111827;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.register-footer a:hover {
+    color: #000000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-container {
+        flex-direction: column;
+    }
+
+    .register-logo-section {
+        min-height: 250px;
+        flex: none;
+    }
+
+    .register-form-section {
+        padding: 32px 20px;
+    }
+
+    .name-group {
+        flex-direction: column;
+        gap: 16px;
+    }
+}

@@ -1,0 +1,31 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px solid #333;
+    background: rgba(31, 31, 31, 0.9);
+    color: #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+
+.nav-icons {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-icon {
+    font-size: 24px;
+    color: #e0e0e0;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 8px;
+}

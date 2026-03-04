@@ -1,9 +1,693 @@
-.home {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.home-container {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Headers & Text
+───────────────────────────────────────────────────────────────────────────── */
+
+.section-subtitle {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.section-header {
+    margin-bottom: 32px;
+}
+
+.section-header.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ver-todo-btn {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    color: #4b5563;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.ver-todo-btn:hover {
+    background-color: #111827;
+    color: #ffffff;
+    border-color: #111827;
+}
+
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+    margin: 0 auto 60px;
+    max-width: 800px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Carousel Redesign
+───────────────────────────────────────────────────────────────────────────── */
+
+.carousel-section {
+    padding: 60px 40px 48px;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.carousel-track-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0 40px;
+    min-height: 380px;
+    position: relative;
+}
+
+.carousel-card-wrapper {
+    flex-shrink: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.carousel-card-wrapper.pos-left,
+.carousel-card-wrapper.pos-right {
+    width: 200px;
+    transform: scale(0.85);
+    opacity: 0.6;
+    z-index: 1;
+}
+
+.carousel-card-wrapper.pos-left {
+    transform: scale(0.85) translateX(30px);
+}
+
+.carousel-card-wrapper.pos-right {
+    transform: scale(0.85) translateX(-30px);
+}
+
+.carousel-card-wrapper.pos-center {
+    width: 280px;
+    transform: scale(1);
+    opacity: 1;
+    z-index: 3;
+    cursor: default;
+}
+
+.carousel-card-wrapper.transitioning {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-card-wrapper:not(.transitioning) {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-card.center-card {
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.carousel-card.side-card {
+    border: 1px solid #f3f4f6;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.carousel-cover-container {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-info {
+    padding: 20px 20px 24px;
+    text-align: left;
+}
+
+.carousel-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.carousel-artist {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 16px 0;
+}
+
+.carousel-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.carousel-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stars-container {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.rating-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.reviews-count {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.carousel-btn {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.carousel-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+    border-color: #9ca3af;
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.carousel-dot {
+    height: 6px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    width: 24px;
+    background: #111827;
+}
+
+.carousel-dot:not(.active) {
+    width: 6px;
+    background: #d1d5db;
+}
+
+.carousel-dot:not(.active):hover {
+    background: #9ca3af;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Feed Redesign 
+───────────────────────────────────────────────────────────────────────────── */
+
+.feed-section {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    text-align: left;
+}
+
+.feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feed-post {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(16px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.feed-post.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feed-post:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.feed-post-inner {
+    display: flex;
+    gap: 16px;
+}
+
+.feed-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.feed-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.feed-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.feed-user {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.feed-action {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.feed-listname {
+    font-size: 14px;
+    color: #4b5563;
+    font-style: italic;
+}
+
+.feed-time {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-left: auto;
+}
+
+.feed-album-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+}
+
+.feed-album-row.no-margin {
+    margin-bottom: 0;
+}
+
+.feed-album-cover {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.feed-album-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.feed-album-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.feed-album-artist {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.feed-album-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.feed-rating-val {
+    font-size: 13px;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.feed-review-text {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    font-style: italic;
+    border-left: 3px solid #e5e7eb;
+    padding-left: 16px;
+}
+
+.feed-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.feed-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.feed-actions {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.feed-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.15s;
+    font-family: inherit;
+    padding: 0;
+}
+
+.feed-action-btn:hover {
+    color: #111827;
+}
+
+.feed-action-btn.liked {
+    color: #e8507a;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Search Redesign (Spotify Integration)
+───────────────────────────────────────────────────────────────────────────── */
+
+.search-container {
+    max-width: 640px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.search-bar-form {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 8px 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.search-bar-form:focus-within {
+    border-color: #111827;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+.search-icon {
+    color: #9ca3af;
+    margin-right: 12px;
+}
+
+.search-bar-form:focus-within .search-icon {
+    color: #111827;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    color: #111827;
+    padding: 8px 0;
+    font-family: inherit;
+}
+
+.search-input::placeholder {
+    color: #9ca3af;
+}
+
+.clear-search-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.clear-search-btn:hover {
+    color: #111827;
+    background: #f3f4f6;
+}
+
+.search-results-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+}
+
+.search-meta {
+    color: #6b7280;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.search-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #f3f4f6;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.search-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    border-color: #e5e7eb;
+}
+
+.search-card-img-wrapper {
+    aspect-ratio: 1;
+    width: 100%;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9fafb;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.search-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.search-card:hover .search-card-img {
+    transform: scale(1.05);
+}
+
+.search-card-img.artist-img {
+    border-radius: 50%;
+    /* Circle for artists, square for albums/tracks */
+}
+
+.search-card-info {
+    text-align: left;
+}
+
+.search-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-card-artist {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 12px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.no-results-state {
+    text-align: center;
+    padding: 64px 20px;
+    color: #6b7280;
+    font-size: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px dashed #d1d5db;
+}
+
+/* Spinner Animation */
+.loading-spinner-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    width: 100%;
-    min-height: 200px;
     justify-content: center;
+    padding: 64px 0;
+    color: #6b7280;
+    font-size: 14px;
+    gap: 16px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #f3f4f6;
+    border-top-color: #111827;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 640px) {
+    .search-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 16px;
+    }
+
+    .search-results-section {
+        padding: 0 20px 40px;
+    }
 }

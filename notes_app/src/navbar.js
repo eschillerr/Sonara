@@ -9,15 +9,7 @@ function Navbar() {
                 SONARA
             </a>
 
-            {/* 4. Search Bar (Letterbox Style) */}
-            <div className="navbar-search">
-                <span className="search-icon">🔍</span>
-                <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Search for songs, artists, albums..."
-                />
-            </div>
+
 
             {/* Navigation Icons */}
             <div className="nav-icons">
@@ -26,7 +18,7 @@ function Navbar() {
                 {/* 3. Explore Button */}
                 <a href="/explore" className="nav-icon" title="Explore">🌐</a>
                 {/* 5. Profile Symbol */}
-                <a href="/profile" className="nav-icon" title="Profile">👤</a>
+                <a href="/test-session" className="nav-icon" title="Profile">👤</a>
             </div>
         </nav>
     );

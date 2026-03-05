@@ -59,7 +59,7 @@ function Register() {
                 <h1 className="brand-logo">SONARA</h1>
             </div>
 
-            <div className="register-form-section" onSubmit={handleSubmit}>
+            <div className="register-form-section">
                 <div className="register-card">
                     <div className="register-header">
                         <h2>Create an Account</h2>
@@ -107,10 +107,10 @@ function Register() {
 
                         <button type="submit" className="register-button">Sign Up</button>
                     </form>
+                </div>
 
-                    <div className="register-footer">
-                        <p>Already have an account? <Link to="/">Sign In</Link></p>
-                    </div>
+                <div className="register-footer">
+                    <p>Already have an account? <Link to="/">Sign In</Link></p>
                 </div>
             </div>
         </div>

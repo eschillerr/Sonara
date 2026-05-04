@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Stars from './Stars';
 import { HeartIcon, ChatIcon } from './Icons';
-import { FRIENDS_POSTS } from '../data/mockData';
+
 
 function FeedPost({ post, index }) {
     const [liked, setLiked] = useState(false);
@@ -99,11 +99,65 @@ function FeedPost({ post, index }) {
 }
 
 export default function Feed() {
+    const [posts, setPosts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchFeed = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/feed', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok && Array.isArray(data) && data.length > 0) {
+                    const dbPosts = data.map((activity, index) => {
+                        return {
+                            id: index,
+                            user: activity.username,
+                            avatar: activity.username.charAt(0).toUpperCase(),
+                            avatarColor: '#1DB954',
+                            action: activity.review_text ? 'escribió una reseña para' : 'calificó',
+                            listName: null,
+                            rating: activity.score,
+                            text: activity.review_text,
+                            likes: 0,
+                            comments: 0,
+                            time: new Date(activity.created_at).toLocaleDateString(),
+                            tags: [],
+                            album: activity.title,
+                            artist: activity.artist_name,
+                            cover: activity.cover_url || 'https://via.placeholder.com/150',
+                        };
+                    });
+
+                    setPosts(dbPosts);
+                } else {
+                    // Fallback to empty or mock
+                    setPosts([]);
+                }
+            } catch (error) {
+                console.error("Error fetching feed:", error);
+                setPosts([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchFeed();
+    }, []);
+
     return (
         <section className="feed-section">
             <div className="section-header space-between">
                 <div>
-                    <p className="section-subtitle">Red social</p>
+                    <p className="section-subtitle">Actividad Reciente</p>
                     <h2 className="section-title">Qué escuchan tus amigos</h2>
                 </div>
                 <button className="ver-todo-btn">
@@ -111,11 +165,22 @@ export default function Feed() {
                 </button>
             </div>
 
-            <div className="feed-list">
-                {FRIENDS_POSTS.map((post, i) => (
-                    <FeedPost key={post.id} post={post} index={i} />
-                ))}
-            </div>
+            {isLoading ? (
+                <div style={{ textAlign: "center", padding: "40px", color: "#9ca3af" }}>
+                    <div className="loading-spinner" style={{ margin: "0 auto 12px" }}></div>
+                    Cargando actividad...
+                </div>
+            ) : posts.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "40px", color: "#9ca3af" }}>
+                    No hay actividad reciente. Intenta seguir a otros usuarios.
+                </div>
+            ) : (
+                <div className="feed-list">
+                    {posts.map((post, i) => (
+                        <FeedPost key={post.id} post={post} index={i} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

@@ -1,0 +1,30 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 5
+      name: "Fase 1: Calentamiento (Warm up)"
+    - duration: 15
+      arrivalRate: 20
+      name: "Fase 2: Carga Mantenida (Sustained Load)"
+    - duration: 5
+      arrivalRate: 50
+      name: "Fase 3: Pico de Estrés (Spike)"
+  payload:
+    # Si quisieras inyectar datos aleatorios como usuarios:
+    # path: "users.csv"
+    # fields:
+    #   - "username"
+    #   - "password"
+scenarios:
+  - name: "Flujo de usuario común"
+    flow:
+      # 1. El usuario busca un artista/canción (simula el autocompletado/búsqueda)
+      - get:
+          url: "/api/spotify/search?q=rock&type=track"
+      # 2. El usuario explora el feed
+      - get:
+          url: "/api/spotify/feed-mix"
+      # 3. El usuario busca a otros usuarios
+      - get:
+          url: "/api/users/search?q=a"

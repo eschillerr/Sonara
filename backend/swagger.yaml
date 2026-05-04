@@ -1,0 +1,416 @@
+openapi: 3.0.0
+info:
+  title: Sonara API
+  version: 1.0.0
+  description: API documentation for the Sonara application.
+servers:
+  - url: http://localhost:3000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /api/register:
+    post:
+      summary: Register a new user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - first_name
+                - last_name
+                - email
+                - username
+                - password
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+        '500':
+          description: Server error
+  /api/login:
+    post:
+      summary: Login user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+        '401':
+          description: Incorrect credentials
+        '500':
+          description: Server error
+  /api/me:
+    get:
+      summary: Get current user info
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User info
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+  /api/spotify/authorize:
+    get:
+      summary: Redirect to Spotify authorization
+      tags:
+        - Spotify
+      responses:
+        '302':
+          description: Redirects to Spotify login
+  /api/spotify/search:
+    get:
+      summary: Search Spotify
+      tags:
+        - Spotify
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+          description: Search query
+        - in: query
+          name: type
+          schema:
+            type: string
+            default: 'album,artist,track'
+          description: Search types
+      responses:
+        '200':
+          description: Search results
+        '400':
+          description: Missing query parameter
+        '500':
+          description: Server error
+  /api/spotify/top-hits:
+    get:
+      summary: Get top hits globally
+      tags:
+        - Spotify
+      responses:
+        '200':
+          description: List of tracks
+        '500':
+          description: Server error
+  /api/spotify/feed-mix:
+    get:
+      summary: Get a mixed feed of diverse genres
+      tags:
+        - Spotify
+      responses:
+        '200':
+          description: List of tracks
+        '500':
+          description: Server error
+  /api/friends:
+    get:
+      summary: Get user's friends
+      tags:
+        - Social
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of friends
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/users/search:
+    get:
+      summary: Search users
+      tags:
+        - Social
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+          description: Search query
+      responses:
+        '200':
+          description: User results
+        '400':
+          description: Missing query parameter
+        '500':
+          description: Server error
+  /api/users/{id}:
+    get:
+      summary: Get user by ID
+      tags:
+        - Social
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: User details
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+  /api/is-following/{id}:
+    get:
+      summary: Check if following user
+      tags:
+        - Social
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: Following status
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/follow:
+    post:
+      summary: Follow a user
+      tags:
+        - Social
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - targetUserId
+              properties:
+                targetUserId:
+                  type: string
+      responses:
+        '200':
+          description: Followed successfully
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/unfollow/{id}:
+    delete:
+      summary: Unfollow a user
+      tags:
+        - Social
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: Unfollowed successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/ratings:
+    post:
+      summary: Add a rating/review for a track
+      tags:
+        - Activity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - spotifyId
+                - score
+              properties:
+                spotifyId:
+                  type: string
+                score:
+                  type: number
+                type:
+                  type: string
+                review:
+                  type: string
+      responses:
+        '200':
+          description: Rating saved
+        '400':
+          description: Missing data
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/my-activity:
+    get:
+      summary: Get logged-in user's activity
+      tags:
+        - Activity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User activity
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/users/{id}/activity:
+    get:
+      summary: Get user's activity by ID
+      tags:
+        - Activity
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: User activity
+        '500':
+          description: Server error
+  /api/feed:
+    get:
+      summary: Get activity feed from followed users
+      tags:
+        - Activity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Feed items
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/favorites:
+    post:
+      summary: Add track to favorites
+      tags:
+        - Favorites
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - spotifyId
+              properties:
+                spotifyId:
+                  type: string
+                type:
+                  type: string
+      responses:
+        '200':
+          description: Added to favorites
+        '400':
+          description: Limits exceeded or missing data
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/favorites/{id}:
+    delete:
+      summary: Remove track from favorites
+      tags:
+        - Favorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Track internal ID
+      responses:
+        '200':
+          description: Removed from favorites
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  /api/users/{id}/favorites:
+    get:
+      summary: Get user's favorites
+      tags:
+        - Favorites
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: User favorites
+        '500':
+          description: Server error

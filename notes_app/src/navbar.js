@@ -18,7 +18,7 @@ function Navbar() {
                 {/* 3. Explore Button */}
                 <a href="/explore" className="nav-icon" title="Explore">🌐</a>
                 {/* 5. Profile Symbol */}
-                <a href="/test-session" className="nav-icon" title="Profile">👤</a>
+                <a href="/profile" className="nav-icon" title="Profile">👤</a>
             </div>
         </nav>
     );

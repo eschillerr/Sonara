@@ -4,6 +4,8 @@ import Home from './home';
 import Login from './login';
 import Register from './register';
 import TestSession from './TestSession';
+import Profile from './Profile';
+import UserProfile from './UserProfile';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<Home />} />
             <Route path="/test-session" element={<TestSession />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/user/:id" element={<UserProfile />} />
           </Routes>
         </header>
       </div>

@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './static/css/home.css';
 import Navbar from './navbar';
 import Carousel from './components/Carousel';
 import Feed from './components/Feed';
+import RatingModal from './components/RatingModal';
 
 export default function Home() {
+    const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [filterType, setFilterType] = useState("all");
+    const [selectedItem, setSelectedItem] = useState(null);
 
     // Search function to query the backend Spotify endpoint
     const handleSearch = async (e) => {
@@ -25,10 +30,15 @@ export default function Home() {
 
         try {
             // Call our local backend instead of Spotify directly
-            const response = await fetch(`http://localhost:3000/api/spotify/search?q=${encodeURIComponent(searchQuery)}`);
-            const data = await response.json();
+            const [spotifyRes, usersRes] = await Promise.all([
+                fetch(`http://localhost:3000/api/spotify/search?q=${encodeURIComponent(searchQuery)}`),
+                fetch(`http://localhost:3000/api/users/search?q=${encodeURIComponent(searchQuery)}`)
+            ]);
 
-            if (data && data.tracks && data.tracks.items) {
+            const data = await spotifyRes.json();
+            const usersData = await usersRes.ok ? await usersRes.json() : [];
+
+            if (data || usersData) {
                 // Formatting results to be consistent for our UI
                 const formattedResults = [
                     ...(data.tracks.items.map(track => ({
@@ -45,12 +55,19 @@ export default function Home() {
                         cover: album.images[0]?.url,
                         type: 'album'
                     })) || []),
-                    ...(data.artists?.items.map(artist => ({
+                    ...(data?.artists?.items.map(artist => ({
                         id: artist.id,
                         title: artist.name,
                         artist: "Artist",
                         cover: artist.images && artist.images.length > 0 ? artist.images[0].url : 'https://via.placeholder.com/150',
                         type: 'artist'
+                    })) || []),
+                    ...(usersData?.map(user => ({
+                        id: user.id,
+                        title: `@${user.username}`,
+                        artist: `${user.first_name} ${user.last_name}`,
+                        cover: `https://ui-avatars.com/api/?name=${user.username}&background=random&color=fff&size=150`,
+                        type: 'user'
                     })) || [])
                 ];
 
@@ -68,7 +85,13 @@ export default function Home() {
         setSearchQuery("");
         setIsSearching(false);
         setSearchResults([]);
+        setFilterType("all");
     };
+
+    // Filter results based on active tab
+    const filteredResults = filterType === "all"
+        ? searchResults
+        : searchResults.filter(r => r.type === filterType);
 
     return (
         <div className="home-container">
@@ -108,30 +131,75 @@ export default function Home() {
                         <p className="search-meta">Mostrando resultados para "{searchQuery}"</p>
                     </div>
 
+                    {/* Filter Tabs */}
+                    {!isLoading && searchResults.length > 0 && (
+                        <div className="search-filter-tabs">
+                            {[
+                                { key: "all", label: "Todos", icon: "" },
+                                { key: "track", label: "Canciones", icon: "" },
+                                { key: "album", label: "Álbumes", icon: "" },
+                                { key: "artist", label: "Artistas", icon: "" },
+                                { key: "user", label: "Usuarios", icon: "" },
+                            ].map(tab => {
+                                const count = tab.key === "all"
+                                    ? searchResults.length
+                                    : searchResults.filter(r => r.type === tab.key).length;
+                                return (
+                                    <button
+                                        key={tab.key}
+                                        className={`filter-tab ${filterType === tab.key ? 'active' : ''}`}
+                                        onClick={() => setFilterType(tab.key)}
+                                    >
+                                        <span className="filter-tab-icon">{tab.icon}</span>
+                                        {tab.label}
+                                        <span className="filter-tab-count">{count}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    )}
+
                     {isLoading ? (
                         <div className="loading-spinner-container">
                             <div className="loading-spinner"></div>
                             <p>Buscando en Spotify...</p>
                         </div>
-                    ) : searchResults.length > 0 ? (
+                    ) : filteredResults.length > 0 ? (
                         <div className="search-grid">
-                            {searchResults.map((result) => (
-                                <div key={`${result.type}-${result.id}`} className="search-card">
+                            {filteredResults.map((result) => (
+                                <div 
+                                    key={`${result.type}-${result.id}`} 
+                                    className={`search-card ${result.type !== 'artist' ? 'clickable' : ''}`}
+                                    onClick={() => {
+                                        if (result.type === 'user') {
+                                            navigate(`/user/${result.id}`);
+                                        } else if (result.type !== 'artist') {
+                                            setSelectedItem(result);
+                                        }
+                                    }}
+                                    style={result.type !== 'artist' ? { cursor: 'pointer' } : {}}
+                                >
                                     <div className="search-card-img-wrapper">
                                         <img
                                             src={result.cover || "https://via.placeholder.com/150"}
                                             alt={result.title}
-                                            className={`search-card-img ${result.type === 'artist' ? 'artist-img' : ''}`}
+                                            className={`search-card-img ${result.type === 'artist' || result.type === 'user' ? 'artist-img' : ''}`}
                                             onError={(e) => { e.target.src = "https://via.placeholder.com/150"; e.target.style.background = "#e5e7eb"; }}
                                         />
                                     </div>
                                     <div className="search-card-info">
                                         <h3 className="search-card-title">{result.title}</h3>
                                         <p className="search-card-artist">{result.artist}</p>
-                                        <span className="search-card-type badge">{result.type}</span>
+                                        <span className={`search-card-type badge badge-${result.type}`}>
+                                            {result.type === 'track' ? 'Canción' : result.type === 'album' ? 'Álbum' : result.type === 'user' ? 'Usuario' : 'Artista'}
+                                        </span>
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                    ) : searchResults.length > 0 ? (
+                        <div className="no-results-state">
+                            <p>No hay resultados de este tipo. Prueba otro filtro.</p>
                         </div>
                     ) : (
                         <div className="no-results-state">
@@ -146,6 +214,18 @@ export default function Home() {
                     <div className="section-divider" />
                     <Feed />
                 </>
+            )}
+
+            {selectedItem && (
+                <RatingModal 
+                    item={selectedItem} 
+                    onClose={() => setSelectedItem(null)} 
+                    onSubmitSuccess={() => {
+                        setSelectedItem(null);
+                        // Optional: trigger a small success toast/alert
+                        alert("¡Calificación guardada con éxito!");
+                    }}
+                />
             )}
         </div>
     );

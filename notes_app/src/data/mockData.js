@@ -48,3 +48,67 @@ export const FRIENDS_POSTS = [
         likes: 61, comments: 15, time: "hace 5 h", tags: ["experimental", "art pop"],
     },
 ];
+
+// Social data templates to combine with Spotify API track data
+export const FEED_SOCIAL_DATA = [
+    {
+        user: "marina_v", avatar: "M", avatarColor: "#e8507a",
+        action: "reseñó", rating: 5,
+        text: "Esta canción destruye todo lo que conocíamos. Increíble producción y letra.",
+        likes: 47, comments: 12, time: "hace 23 min", tags: ["pop", "experimental"],
+    },
+    {
+        user: "theo_r", avatar: "T", avatarColor: "#4a9eff",
+        action: "agregó a su lista", rating: null, text: null,
+        listName: "canciones que cambiaron mi vida",
+        likes: 18, comments: 3, time: "hace 1 h", tags: [],
+    },
+    {
+        user: "camille_x", avatar: "C", avatarColor: "#5aff9a",
+        action: "calificó", rating: 4.5,
+        text: "Volver a escuchar esto después de años y entender que todo lo que ha salido después intenta ser esto.",
+        likes: 92, comments: 28, time: "hace 2 h", tags: ["r&b", "soul"],
+    },
+    {
+        user: "felix_p", avatar: "F", avatarColor: "#c0a0ff",
+        action: "reseñó", rating: 4,
+        text: "Un track conceptual brillante. Doloroso y brillante al mismo tiempo.",
+        likes: 34, comments: 9, time: "hace 3 h", tags: ["hip-hop", "neo-soul"],
+    },
+    {
+        user: "sola_m", avatar: "S", avatarColor: "#ffaa40",
+        action: "reseñó", rating: 5,
+        text: "Música que suena como si la hubieran grabado dentro de un cristal. No hay nada igual.",
+        likes: 61, comments: 15, time: "hace 5 h", tags: ["experimental", "art pop"],
+    },
+    {
+        user: "diego_c", avatar: "D", avatarColor: "#ff6060",
+        action: "calificó", rating: 4.8,
+        text: "Este ritmo es adictivo, no puedo dejar de escucharlo en loop.",
+        likes: 73, comments: 20, time: "hace 6 h", tags: ["pop", "dance"],
+    },
+    {
+        user: "lucia_r", avatar: "L", avatarColor: "#40e0d0",
+        action: "reseñó", rating: 4.2,
+        text: "La voz y la producción se combinan perfectamente. Una joya.",
+        likes: 55, comments: 11, time: "hace 7 h", tags: ["indie", "alternative"],
+    },
+    {
+        user: "pablo_s", avatar: "P", avatarColor: "#d4a050",
+        action: "agregó a su lista", rating: null, text: null,
+        listName: "mis favoritas del momento",
+        likes: 29, comments: 5, time: "hace 8 h", tags: [],
+    },
+    {
+        user: "ana_m", avatar: "A", avatarColor: "#ff8aaa",
+        action: "calificó", rating: 4.6,
+        text: "Increíble cómo una canción puede transmitir tanto en tan poco tiempo.",
+        likes: 41, comments: 7, time: "hace 9 h", tags: ["latin", "urban"],
+    },
+    {
+        user: "carlos_j", avatar: "C", avatarColor: "#f5c842",
+        action: "reseñó", rating: 4.9,
+        text: "Obra maestra. Cada segundo es perfecto.",
+        likes: 88, comments: 31, time: "hace 10 h", tags: ["hip-hop", "trap"],
+    },
+];
